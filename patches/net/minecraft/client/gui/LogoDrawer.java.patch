@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/LogoDrawer.java
++++ b/net/minecraft/client/gui/LogoDrawer.java
+@@ -8,0 +9,1 @@
++import org.joml.Quaternionf;
+@@ -35,0 +37,2 @@
++        $$0.getMatrices().push();
++        $$0.getMatrices().multiply(new Quaternionf(Math.random()*0.5, Math.random()*0.5,Math.random()*0.5, 1));
+@@ -38,1 +40,1 @@
+-        $$0.drawTexture(this.minceraft ? MINCERAFT_TEXTURE : LOGO_TEXTURE, $$4, $$3, 0.0f, 0.0f, 256, 44, 256, 64);
++        $$0.drawTexture(Math.random() > 0.5 ? MINCERAFT_TEXTURE : LOGO_TEXTURE, $$4, $$3, 0.0f, 0.0f, 256, 44, 256, 64);
+@@ -42,0 +46,1 @@
++        $$0.getMatrices().pop();

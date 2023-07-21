@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'com.jab125.mccustom' version "1.0-SNAPSHOT"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+mcCustom {
+    patchedClasses.addAll("net/minecraft/entity/mob/MobEntity", "net/minecraft/client/gui/screen/TitleScreen", "net/minecraft/client/ClientBrandRetriever", "net/minecraft/client/gui/LogoDrawer")
+}
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://maven.minecraftforge.net/"
+    }
+    maven {
+        url = "https://maven.fabricmc.net/"
+    }
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        maven {
+            url = "https://maven.minecraftforge.net/"
+        }
+        maven {
+            url = "https://maven.fabricmc.net/"
+        }
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+        mavenLocal()
+    }
+}
+
+rootProject.name = 'testMcp'
+
+include "minecraft"
+

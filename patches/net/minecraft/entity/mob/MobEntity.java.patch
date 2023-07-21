@@ -1,0 +1,33 @@
+--- a/net/minecraft/entity/mob/MobEntity.java
++++ b/net/minecraft/entity/mob/MobEntity.java
+@@ -0,0 +1,1 @@
++// Patches in this class due to tiny remapper unprotecting correctly.
+@@ -170,1 +170,1 @@
+-        MobEntity $$3;
++        MobEntity $$3 = null;
+@@ -338,0 +340,1 @@
++            this.damage(this.getWorld().getDamageSources().genericKill(), 500);
+@@ -757,1 +758,1 @@
+-            double $$6 = $$5.getEyeY() - this.getEyeY();
++            $$7 = $$5.getEyeY() - this.getEyeY();
+@@ -870,1 +871,1 @@
+-                float $$1 = this.handDropChances[$$0.getEntitySlotId()];
++                $$3 = this.handDropChances[$$0.getEntitySlotId()];
+@@ -874,1 +875,1 @@
+-                float $$2 = this.armorDropChances[$$0.getEntitySlotId()];
++                $$3 = this.armorDropChances[$$0.getEntitySlotId()];
+@@ -1090,1 +1091,1 @@
+-                Optional<MobEntity> $$5 = $$4.spawnBaby($$0, this, this.getType(), (ServerWorld)this.getWorld(), this.getPos(), $$2);
++                Optional<MobEntity> $$5 = $$4.spawnBaby($$0, this, (EntityType<? extends MobEntity>) this.getType(), (ServerWorld)this.getWorld(), this.getPos(), $$2);
+@@ -1309,1 +1310,10 @@
+-        return Math.max(this.squaredDistanceTo($$0.getAttackPos()), this.squaredDistanceTo($$0.getPos()));
++        return Math.max(this.squaredDistanceTo(getAttackPos($$0)), this.squaredDistanceTo($$0.getPos()));
++    }
++
++     static net.minecraft.util.math.Vec3d getAttackPos(LivingEntity livingEntity) {
++        Entity var2 = livingEntity.getVehicle();
++        if (var2 instanceof net.minecraft.entity.AttackPosOffsettingMount $$0) {
++            return livingEntity.getPos().add(0.0, $$0.getPassengerAttackYOffset(), 0.0);
++        } else {
++            return livingEntity.getPos();
++        }

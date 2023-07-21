@@ -1,0 +1,105 @@
+--- a/net/minecraft/client/gui/screen/TitleScreen.java
++++ b/net/minecraft/client/gui/screen/TitleScreen.java
+@@ -53,0 +54,1 @@
++import net.minecraft.util.Formatting;
+@@ -55,0 +57,1 @@
++import net.minecraft.util.math.ColorHelper;
+@@ -67,1 +68,1 @@
+-    public static final Text COPYRIGHT = Text.literal("Copyright Mojang AB. Do not distribute!");
++    public static final Text COPYRIGHT = Text.literal("Copyright USSR. Communism.").formatted(Formatting.field_1079);
+@@ -150,0 +153,1 @@
++        this.deprecationNotice = new DeprecationNotice(this.textRenderer, MultilineText.create(this.textRenderer, Text.literal("MinceRAFT FROGE beta!"), 350, 2), this.width / 2, $$3 - 24);
+@@ -153,2 +155,4 @@
+-    private void initWidgetsNormal(int $$02, int $$1) {
+-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.singleplayer"), $$0 -> this.client.setScreen(new SelectWorldScreen(this))).dimensions(this.width / 2 - 100, $$02, 200, 20).build());
++    private void initWidgetsNormal(int $$0, int $$1) {
++        this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.singleplayer"), ($$0x) -> {
++            this.client.setScreen(new SelectWorldScreen(this));
++        }).dimensions(this.width / 2 - 100, $$0, 200, 20).build());
+@@ -158,3 +162,7 @@
+-        this.addDrawableChild(ButtonWidget.builder((Text)Text.translatable((String)"menu.multiplayer"), (ButtonWidget.PressAction)(ButtonWidget.PressAction)LambdaMetafactory.metafactory(null, null, null, (Lnet/minecraft/client/gui/widget/ButtonWidget;)V, onMultiplayerButtonPressed(net.minecraft.client.gui.widget.ButtonWidget ), (Lnet/minecraft/client/gui/widget/ButtonWidget;)V)((TitleScreen)this)).dimensions((int)(this.width / 2 - 100), (int)($$02 + $$1 * 1), (int)200, (int)20).tooltip((Tooltip)$$4).build()).active = $$3;
+-        this.addDrawableChild(ButtonWidget.builder((Text)Text.translatable((String)"menu.online"), (ButtonWidget.PressAction)(ButtonWidget.PressAction)LambdaMetafactory.metafactory(null, null, null, (Lnet/minecraft/client/gui/widget/ButtonWidget;)V, onRealmsButtonPress(net.minecraft.client.gui.widget.ButtonWidget ), (Lnet/minecraft/client/gui/widget/ButtonWidget;)V)((TitleScreen)this)).dimensions((int)(this.width / 2 - 100), (int)($$02 + $$1 * 2), (int)200, (int)20).tooltip((Tooltip)$$4).build()).active = $$3;
+-    }
++        ((ButtonWidget)this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.multiplayer"), ($$0x) -> {
++            Screen $$12 = this.client.options.skipMultiplayerWarning ? new MultiplayerScreen(this) : new MultiplayerWarningScreen(this);
++            this.client.setScreen((Screen)$$12);
++        }).dimensions(this.width / 2 - 100, $$0 + $$1 * 1, 200, 20).tooltip($$4).build())).active = $$3;
++        ((ButtonWidget)this.addDrawableChild(ButtonWidget.builder(Text.translatable("menu.online"), ($$0x) -> {
++            this.switchToRealms();
++        }).dimensions(this.width / 2 - 100, $$0 + $$1 * 2, 200, 20).tooltip($$4).build())).active = $$3;    }
+@@ -163,0 +173,1 @@
++        if (true) return Text.translatable("title.multiplayer.disabled.banned.permanent");
+@@ -188,2 +197,2 @@
+-            try (LevelStorage.Session $$2 = $$1.createSessionWithoutSymlinkCheck(DEMO_WORLD_NAME);){
+-                LevelSummary $$3 = $$2.getLevelSummary();
++            try (LevelStorage.Session $$$2 = $$1.createSessionWithoutSymlinkCheck(DEMO_WORLD_NAME);){
++                LevelSummary $$3 = $$$2.getLevelSummary();
+@@ -202,3 +211,4 @@
+-        boolean bl;
+-        block8: {
+-            LevelStorage.Session $$0 = this.client.getLevelStorage().createSessionWithoutSymlinkCheck(DEMO_WORLD_NAME);
++        try {
++            LevelStorage.Session $$0 = this.client.getLevelStorage().createSessionWithoutSymlinkCheck("Demo_World");
++
++            boolean var2;
+@@ -206,10 +216,7 @@
+-                boolean bl2 = bl = $$0.getLevelSummary() != null;
+-                if ($$0 == null) break block8;
+-            } catch (Throwable throwable) {
+-                try {
+-                    if ($$0 != null) {
+-                        try {
+-                            $$0.close();
+-                        } catch (Throwable throwable2) {
+-                            throwable.addSuppressed(throwable2);
+-                        }
++                var2 = $$0.getLevelSummary() != null;
++            } catch (Throwable var5) {
++                if ($$0 != null) {
++                    try {
++                        $$0.close();
++                    } catch (Throwable var4) {
++                        var5.addSuppressed(var4);
+@@ -217,5 +224,0 @@
+-                    throw throwable;
+-                } catch (IOException $$1) {
+-                    SystemToast.addWorldAccessFailureToast(this.client, DEMO_WORLD_NAME);
+-                    LOGGER.warn("Failed to read demo world data", (Throwable)$$1);
+-                    return false;
+@@ -222,0 +226,2 @@
++
++                throw var5;
+@@ -224,1 +228,10 @@
+-            $$0.close();
++
++            if ($$0 != null) {
++                $$0.close();
++            }
++
++            return var2;
++        } catch (IOException var6) {
++            SystemToast.addWorldAccessFailureToast(this.client, "Demo_World");
++            LOGGER.warn("Failed to read demo world data", var6);
++            return false;
+@@ -226,1 +239,0 @@
+-        return bl;
+@@ -253,0 +267,3 @@
++            $$0.getMatrices().push();
++            $$0.getMatrices().translate(50-Math.random()*100, 50-Math.random()*100, 0);
++            $$0.setShaderColor((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
+@@ -254,0 +271,2 @@
++            $$0.getMatrices().pop();
++            $$0.setShaderColor(1, 1, 1, 1);
+@@ -256,4 +273,6 @@
+-        String $$7 = "Minecraft " + SharedConstants.getGameVersion().getName();
+-        $$7 = this.client.isDemo() ? $$7 + " Demo" : $$7 + (String)("release".equalsIgnoreCase(this.client.getVersionType()) ? "" : "/" + this.client.getVersionType());
+-        if (MinecraftClient.getModStatus().isModded()) {
+-            $$7 = $$7 + I18n.translate("menu.modded", new Object[0]);
++        int textHeight = this.textRenderer.fontHeight;
++        String[] $$7 = {"Minecraft Pro Edition 1.20.1 (MCP++ Rank) PLUS v5", "Yarn 1.20.1 build 1", "SRG 298efabc209", "MinceRAFT FROG 47.29.5", "hkh¨¥®ßƒ©ej", "浮上明後日", "Update Available!", Math.random() + ""};
++        int i = 0;
++        for (String s : $$7) {
++            $$0.drawTextWithShadow(this.textRenderer, s, 2, this.height - 10 - i * textHeight, ColorHelper.Argb.getArgb(0, (int) (Math.random()*256), (int) (Math.random()*256), (int) (Math.random()*256)) | $$6);
++            i++;
+@@ -261,1 +280,0 @@
+-        $$0.drawTextWithShadow(this.textRenderer, $$7, 2, this.height - 10, 0xFFFFFF | $$6);
